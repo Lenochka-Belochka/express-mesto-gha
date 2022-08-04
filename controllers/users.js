@@ -1,5 +1,4 @@
-const User = require('../models/user');
-
+const User = require("../models/user");
 
 const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
@@ -8,8 +7,10 @@ const createUser = (req, res) => {
       res.status(200).send(data);
     })
     .catch((error) => {
-      if (error.name === 'ValidationError') {
-        res.status(400).send({ message: 'Проблема с валидацией на сервере создание' });
+      if (error.name === "ValidationError") {
+        res
+          .status(400)
+          .send({ message: "Проблема с валидацией на сервере создание" });
         return;
       }
       res.status(500).send({ message: `Ошибка сервера ${error}` });
@@ -20,13 +21,15 @@ const getUserById = (req, res) => {
   User.findById(userId)
     .then((data) => {
       if (!data) {
-        res.status(404).send({ message: `Пользователь с указанным id:${userId} не найден` });
+        res
+          .status(404)
+          .send({ message: `Пользователь с указанным id:${userId} не найден` });
         return;
       }
       res.status(200).send(data);
     })
     .catch((error) => {
-      if (error.name === 'CastError') {
+      if (error.name === "CastError") {
         res.status(400).send({ message: `Ошибочный id:${userId}  ` });
         return;
       }
@@ -40,8 +43,8 @@ const getUsers = (req, res) => {
       res.status(200).send(data);
     })
     .catch((error) => {
-      if (error.name === 'CastError') {
-        res.status(404).send({ message: 'Пользователи  не существуют' });
+      if (error.name === "CastError") {
+        res.status(404).send({ message: "Пользователи  не существуют" });
         return;
       }
       res.status(500).send({ message: `Ошибка сервера ${error}` });
@@ -51,13 +54,17 @@ const getUsers = (req, res) => {
 const updateUserInfo = (req, res) => {
   const { name, about } = req.body;
   const userId = req.user._id;
-  User.findOneAndUpdate({ id: userId }, { name, about }, { new: true, runValidators: true })
+  User.findOneAndUpdate(
+    { id: userId },
+    { name, about },
+    { new: true, runValidators: true }
+  )
     .then((data) => {
       res.status(200).send(data);
     })
     .catch((error) => {
-      if (error.name === 'ValidationError') {
-        res.status(400).send({ message: 'Проблема с валидацией на сервере' });
+      if (error.name === "ValidationError") {
+        res.status(400).send({ message: "Проблема с валидацией на сервере" });
         return;
       }
       res.status(500).send({ message: `Ошибка сервера ${error}` });
@@ -66,13 +73,19 @@ const updateUserInfo = (req, res) => {
 const updateUserAvatar = (req, res) => {
   const { avatar } = req.body;
   const userId = req.user._id;
-  User.findOneAndUpdate({ id: userId }, { avatar }, { new: true, runValidators: true })
+  User.findOneAndUpdate(
+    { id: userId },
+    { avatar },
+    { new: true, runValidators: true }
+  )
     .then((data) => {
       res.status(200).send(data);
     })
     .catch((error) => {
-      if (error.name === 'ValidationError') {
-        res.status(400).send({ message: 'Проблема с валидацией на сервере апдейт' });
+      if (error.name === "ValidationError") {
+        res
+          .status(400)
+          .send({ message: "Проблема с валидацией на сервере апдейт" });
         return;
       }
       res.status(500).send({ message: `Ошибка сервера ${error}` });
@@ -80,5 +93,9 @@ const updateUserAvatar = (req, res) => {
 };
 
 module.exports = {
-  createUser, getUserById, getUsers, updateUserInfo, updateUserAvatar
+  createUser,
+  getUserById,
+  getUsers,
+  updateUserInfo,
+  updateUserAvatar,
 };
