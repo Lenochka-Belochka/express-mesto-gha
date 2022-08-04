@@ -1,35 +1,5 @@
 const User = require('../models/user');
 
-const updateUserInfo = (req, res) => {
-  const { name, about } = req.body;
-  const userId = req.user._id;
-  User.findOneAndUpdate({ id: userId }, { name, about }, { new: true, runValidators: true })
-    .then((data) => {
-      res.status(200).send(data);
-    })
-    .catch((error) => {
-      if (error.name === 'ValidationError') {
-        res.status(400).send({ message: 'Проблема с валидацией на сервере' });
-        return;
-      }
-      res.status(500).send({ message: `Ошибка сервера ${error}` });
-    });
-};
-const updateUserAvatar = (req, res) => {
-  const { avatar } = req.body;
-  const userId = req.user._id;
-  User.findOneAndUpdate({ id: userId }, { avatar }, { new: true, runValidators: true })
-    .then((data) => {
-      res.status(200).send(data);
-    })
-    .catch((error) => {
-      if (error.name === 'ValidationError') {
-        res.status(400).send({ message: 'Проблема с валидацией на сервере апдейт' });
-        return;
-      }
-      res.status(500).send({ message: `Ошибка сервера ${error}` });
-    });
-};
 
 const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
@@ -72,6 +42,37 @@ const getUsers = (req, res) => {
     .catch((error) => {
       if (error.name === 'CastError') {
         res.status(404).send({ message: 'Пользователи  не существуют' });
+        return;
+      }
+      res.status(500).send({ message: `Ошибка сервера ${error}` });
+    });
+};
+
+const updateUserInfo = (req, res) => {
+  const { name, about } = req.body;
+  const userId = req.user._id;
+  User.findOneAndUpdate({ id: userId }, { name, about }, { new: true, runValidators: true })
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((error) => {
+      if (error.name === 'ValidationError') {
+        res.status(400).send({ message: 'Проблема с валидацией на сервере' });
+        return;
+      }
+      res.status(500).send({ message: `Ошибка сервера ${error}` });
+    });
+};
+const updateUserAvatar = (req, res) => {
+  const { avatar } = req.body;
+  const userId = req.user._id;
+  User.findOneAndUpdate({ id: userId }, { avatar }, { new: true, runValidators: true })
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((error) => {
+      if (error.name === 'ValidationError') {
+        res.status(400).send({ message: 'Проблема с валидацией на сервере апдейт' });
         return;
       }
       res.status(500).send({ message: `Ошибка сервера ${error}` });

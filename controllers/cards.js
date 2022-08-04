@@ -15,7 +15,7 @@ const postCard = (req, res) => {
       res.status(500).send({ message: `Ошибка сервера ${error}` });
     });
 };
-const deleteCard = (req, res) => {
+const removeCard = (req, res) => {
   const cardId = req.params.id;
   Card.findByIdAndRemove(cardId)
     .then((data) => {
@@ -34,7 +34,7 @@ const deleteCard = (req, res) => {
     });
 };
 
-const findCards = (req, res) => {
+const findCard = (req, res) => {
   Card.find({})
     .then((cards) => {
       res.status(200).send(cards);
@@ -87,5 +87,5 @@ const removeLike = (req, res) => {
 };
 
 module.exports = {
-  postCard, findCards, deleteCard, addLike, removeLike,
+  postCard, findCard, removeCard, addLike, removeLike,
 };
