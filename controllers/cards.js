@@ -59,7 +59,7 @@ const addLike = (req, res) => {
   Card.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     .then((data) => {
       if (!data) {
@@ -73,7 +73,7 @@ const addLike = (req, res) => {
       res.status(200).send(data);
     })
     .catch((error) => {
-      if (error.name === "CastError") {
+      if (error.name === 'CastError') {
         res.status(400).send({ message: 'Карточка отсутствует' });
         return;
       }
@@ -86,7 +86,7 @@ const removeLike = (req, res) => {
   Card.findByIdAndUpdate(
     cardId,
     { $pull: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     .then((data) => {
       if (!data) {

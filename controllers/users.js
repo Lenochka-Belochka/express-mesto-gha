@@ -29,7 +29,7 @@ const getUserById = (req, res) => {
       res.status(200).send(data);
     })
     .catch((error) => {
-      if (error.name === "CastError") {
+      if (error.name === 'CastError') {
         res.status(400).send({ message: `Ошибочный id:${userId}  ` });
         return;
       }
@@ -43,7 +43,7 @@ const getUsers = (req, res) => {
       res.status(200).send(data);
     })
     .catch((error) => {
-      if (error.name === "CastError") {
+      if (error.name === 'CastError') {
         res.status(404).send({ message: 'Пользователи  не существуют' });
         return;
       }
