@@ -16,7 +16,7 @@ const createUser = (req, res) => {
       res.status(500).send({ message: `Ошибка сервера ${error}` });
     });
 };
-const getUserById = (req, res) => {
+const getUserId = (req, res) => {
   const userId = req.params.id;
   User.findById(userId)
     .then((data) => {
@@ -94,7 +94,7 @@ const updateUserAvatar = (req, res) => {
 
 module.exports = {
   createUser,
-  getUserById,
+  getUserId,
   getUsers,
   updateUserInfo,
   updateUserAvatar,
