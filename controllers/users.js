@@ -63,8 +63,8 @@ const updateUserInfo = (req, res) => {
       res.status(200).send(data);
     })
     .catch((error) => {
-      if (error.name === "ValidationError") {
-        res.status(400).send({ message: "Проблема с валидацией на сервере" });
+      if (error.name === 'ValidationError') {
+        res.status(400).send({ message: 'Проблема с валидацией на сервере' });
         return;
       }
       res.status(500).send({ message: `Ошибка сервера ${error}` });
@@ -82,10 +82,10 @@ const updateUserAvatar = (req, res) => {
       res.status(200).send(data);
     })
     .catch((error) => {
-      if (error.name === "ValidationError") {
+      if (error.name === 'ValidationError') {
         res
           .status(400)
-          .send({ message: "Проблема с валидацией на сервере апдейт" });
+          .send({ message: 'Проблема с валидацией на сервере апдейт' });
         return;
       }
       res.status(500).send({ message: `Ошибка сервера ${error}` });

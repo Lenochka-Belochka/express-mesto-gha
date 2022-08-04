@@ -1,4 +1,4 @@
-const Card = require("../models/card");
+const Card = require('../models/card');
 
 const postCard = (req, res) => {
   const { name, link } = req.body;
@@ -8,11 +8,11 @@ const postCard = (req, res) => {
       res.status(200).send(data);
     })
     .catch((error) => {
-      if (error.name === "ValidationError") {
+      if (error.name === 'ValidationError') {
         res
           .status(400)
           .send({
-            message: "Проблема с валидацией на сервере отправка карточки",
+            message: 'Проблема с валидацией на сервере отправка карточки',
           });
         return;
       }
@@ -32,7 +32,7 @@ const removeCard = (req, res) => {
       res.status(200).send(data);
     })
     .catch((error) => {
-      if (error.name === "CastError") {
+      if (error.name === 'CastError') {
         res.status(400).send({ message: `Карточка с id:${cardId} не найдена` });
         return;
       }
@@ -46,8 +46,8 @@ const findCard = (req, res) => {
       res.status(200).send(cards);
     })
     .catch((error) => {
-      if (error.name === "CastError") {
-        res.status(404).send({ message: "Карточки отсутствуют" });
+      if (error.name === 'CastError') {
+        res.status(404).send({ message: 'Карточки отсутствуют' });
         return;
       }
       res.status(500).send({ message: `Ошибка сервера ${error}` });
@@ -74,7 +74,7 @@ const addLike = (req, res) => {
     })
     .catch((error) => {
       if (error.name === "CastError") {
-        res.status(400).send({ message: "Карточка отсутствует" });
+        res.status(400).send({ message: 'Карточка отсутствует' });
         return;
       }
       res.status(500).send({ message: `Ошибка сервера ${error}` });
@@ -96,8 +96,8 @@ const removeLike = (req, res) => {
       res.status(200).send(data);
     })
     .catch((error) => {
-      if (error.name === "CastError") {
-        res.status(400).send({ message: "Карточка не найдена" });
+      if (error.name === 'CastError') {
+        res.status(400).send({ message: 'Карточка не найдена' });
         return;
       }
       res.status(500).send({ message: `Ошибка сервера ${error}` });
