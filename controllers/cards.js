@@ -11,10 +11,11 @@ const postCard = (req, res, next) => {
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
-        throw new BadRequest('Проблема с валидацией на сервере отправка карточки');
+        throw new BadRequest('Проблема с валидацией на сервере');
       }
       next(error);
-    });
+    })
+    .catch(next);
 };
 const removeCard = (req, res, next) => {
   const cardId = req.params.id;
