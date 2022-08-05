@@ -2,7 +2,7 @@ const Card = require('../models/card');
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequest = require('../errors/BadRequest');
 
-const postCard = (req, res) => {
+const postCard = (req, res, next) => {
   const { name, link } = req.body;
   const owner = req.user._id;
   Card.create({ name, link, owner })
@@ -14,18 +14,18 @@ const postCard = (req, res) => {
         throw new BadRequest('Проблема с валидацией на сервере отправка карточки');
       }
       next(error);
-    })
+    });
 };
-const removeCard = (req, res) => {
+const removeCard = (req, res, next) => {
   const cardId = req.params.id;
   Card.findByIdAndRemove(cardId)
     .then((data) => {
       if (!data) {
-      throw new NotFoundError(`Карточка с данным id не найдена`);
+        throw new NotFoundError('Карточка с данным id не найдена');
       }
       res.status(200).send(data);
     })
- .catch((error) => {
+    .catch((error) => {
       if (error.name === 'CastError') {
         throw new BadRequest('Карточка отсутствует');
       }
@@ -34,7 +34,7 @@ const removeCard = (req, res) => {
     .catch(next);
 };
 
-const findCard = (req, res) => {
+const findCard = (req, res, next) => {
   Card.find({})
     .then((cards) => {
       res.status(200).send(cards);
@@ -48,7 +48,7 @@ const findCard = (req, res) => {
     .catch(next);
 };
 
-const addLike = (req, res) => {
+const addLike = (req, res, next) => {
   const cardId = req.params.id;
   Card.findByIdAndUpdate(
     cardId,
@@ -57,7 +57,7 @@ const addLike = (req, res) => {
   )
     .then((data) => {
       if (!data) {
-      throw new NotFoundError(`Карточка с данным id не найдена`);
+        throw new NotFoundError('Карточка с данным id не найдена');
       }
       res.status(200).send(data);
     })
@@ -70,7 +70,7 @@ const addLike = (req, res) => {
     .catch(next);
 };
 
-const removeLike = (req, res) => {
+const removeLike = (req, res, next) => {
   const cardId = req.params.id;
   Card.findByIdAndUpdate(
     cardId,
