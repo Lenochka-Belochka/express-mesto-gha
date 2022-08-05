@@ -83,9 +83,9 @@ const updateUserAvatar = (req, res, next) => {
     .then((data) => {
       if (!data) {
         next(new BadRequest('Переданы некорректные данные'));
-        return;
-      }
+      } else {
       res.status(200).send(data);
+      }
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
