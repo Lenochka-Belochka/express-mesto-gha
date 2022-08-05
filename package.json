@@ -2,10 +2,9 @@
   "name": "express-mesto-gha",
   "version": "1.0.0",
   "description": "PW13",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npx eslint",
+    "lint": "npx eslint .",
     "start": "node app.js",
     "dev": "nodemon app.js"
   },

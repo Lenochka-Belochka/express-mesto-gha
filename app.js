@@ -11,10 +11,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
 });
 
-app.listen(PORT, () => {
-  // Если всё работает, консоль покажет, какой порт приложение слушает
-  console.log(`App listening on port ${PORT}`);
-});
+
 
 app.use((req, res, next) => {
   req.user = {
@@ -28,3 +25,9 @@ app.use(express.json());
 app.use('/', usersRouter);
 app.use('/', cardsRouter);
 app.all('*', errorRouter);
+
+
+app.listen(PORT, () => {
+  // Если всё работает, консоль покажет, какой порт приложение слушает
+  console.log(`App listening on port ${PORT}`);
+});
