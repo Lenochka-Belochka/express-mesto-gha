@@ -15,7 +15,7 @@ const createUser = (req, res, next) => {
       next(error);
     })
     .catch(next);
-  };
+};
 
 const getUserId = (req, res, next) => {
   const userId = req.params.id;
