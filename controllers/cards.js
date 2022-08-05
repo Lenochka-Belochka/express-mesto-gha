@@ -79,7 +79,7 @@ const removeLike = (req, res, next) => {
   )
     .then((data) => {
       if (!data) {
-        throw new NotFoundError(`Карточка с данным id не найдена`);
+        throw new NotFoundError('Карточка с данным id не найдена');
       }
       res.status(200).send(data);
     })
