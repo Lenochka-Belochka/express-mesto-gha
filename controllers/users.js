@@ -58,6 +58,9 @@ const updateUserInfo = (req, res, next) => {
     { new: true, runValidators: true },
   )
     .then((data) => {
+      if (!data) {
+        next(new BadRequest('Переданы некорректные данные'));
+      }
       res.status(200).send(data);
     })
     .catch((error) => {
@@ -77,6 +80,9 @@ const updateUserAvatar = (req, res, next) => {
     { new: true, runValidators: true },
   )
     .then((data) => {
+      if (!data) {
+        next(new BadRequest('Переданы некорректные данные'));
+      }
       res.status(200).send(data);
     })
     .catch((error) => {
