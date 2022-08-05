@@ -24,6 +24,14 @@ app.use('/', usersRouter);
 app.use('/', cardsRouter);
 app.all('*', errorRouter);
 
+app.use(errors());
+
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message } = err;
+  res.status(statusCode).send({ message: statusCode === 500 ? 'Ошибка на сервере' : message });
+  next();
+});
+
 app.listen(PORT, () => {
   // Если всё работает, консоль покажет, какой порт приложение слушает
   console.log(`App listening on port ${PORT}`);
