@@ -60,9 +60,10 @@ const updateUserInfo = (req, res, next) => {
     .then((data) => {
       if (!data) {
         next(new BadRequest('Переданы некорректные данные'));
-      }
+      } else {
       res.status(200).send(data);
-    })
+}
+})
     .catch((error) => {
       if (error.name === 'ValidationError') {
         throw new BadRequest('Проблема с валидацией на сервере');
@@ -82,6 +83,7 @@ const updateUserAvatar = (req, res, next) => {
     .then((data) => {
       if (!data) {
         next(new BadRequest('Переданы некорректные данные'));
+        return;
       }
       res.status(200).send(data);
     })
