@@ -2,7 +2,7 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequest = require('../errors/BadRequest');
 
-const createUser = (req, res) => {
+const createUser = (req, res, next) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
     .then((data) => {
@@ -17,25 +17,25 @@ const createUser = (req, res) => {
     .catch(next);
   };
 
-const getUserId = (req, res) => {
+const getUserId = (req, res, next) => {
   const userId = req.params.id;
   User.findById(userId)
     .then((data) => {
       if (!data) {
-        throw new NotFoundError('Пользователь с указанным id:${userId} не найден');
+        throw new NotFoundError('Пользователь с указанным id не найден');
       }
       res.status(200).send(data);
-      })
+    })
     .catch((error) => {
       if (error.name === 'CastError') {
-        throw new BadRequest('Ошибочный id:${userId}');
+        throw new BadRequest('Ошибочный id');
       }
       next(error);
     })
     .catch(next);
 };
 
-const getUsers = (req, res) => {
+const getUsers = (req, res, next) => {
   User.find({})
     .then((data) => {
       res.status(200).send(data);
@@ -49,7 +49,7 @@ const getUsers = (req, res) => {
     .catch(next);
 };
 
-const updateUserInfo = (req, res) => {
+const updateUserInfo = (req, res, next) => {
   const { name, about } = req.body;
   const userId = req.user._id;
   User.findOneAndUpdate(
@@ -68,7 +68,7 @@ const updateUserInfo = (req, res) => {
     })
     .catch(next);
 };
-const updateUserAvatar = (req, res) => {
+const updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
   const userId = req.user._id;
   User.findOneAndUpdate(
