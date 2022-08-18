@@ -26,10 +26,11 @@ const login = (req, res, next) => {
 
 const createUser = (req, res, next) => {
   const { email, name, about, avatar } = req.body;
-  bcrypt.hash(req.body.password, 10)
-  .then((hash) => User.create({
-    email, password: hash, name, about, avatar,
-  }))
+  
+    bcrypt.hash(req.body.password, 10)
+    .then((hash) => User.create({
+      email, password: hash, name, about, avatar,
+    }))
     .then((data) => {
       res.status(200).send({
         name: data.name,
@@ -50,7 +51,6 @@ const createUser = (req, res, next) => {
     .catch(next);
 };
 
-
 const getUserId = (req, res, next) => {
   const userId = req.params.id;
   User.findById(userId)
@@ -68,7 +68,6 @@ const getUserId = (req, res, next) => {
     })
     .catch(next);
 };
-
 
 const getUsers = (req, res, next) => {
   User.find({})

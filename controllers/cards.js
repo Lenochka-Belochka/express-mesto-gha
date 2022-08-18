@@ -3,7 +3,6 @@ const NotFoundError = require('../errors/NotFoundError');
 const BadRequest = require('../errors/BadRequest');
 const AccessError = require('../errors/AccessError');
 
-
 const postCard = (req, res, next) => {
   const { name, link } = req.body;
   const owner = req.user._id;
@@ -32,18 +31,18 @@ const removeCard = (req, res, next) => {
       } else {
         Card.findByIdAndRemove(cardId)
           .then((data) => {
-      res.status(200).send(data);
-    })
-    .catch((error) => {
-      if (error.name === 'CastError') {
-        throw new BadRequest('Карточка отсутствует');
+            res.status(200).send(data);
+          })
+          .catch((error) => {
+            if (error.name === 'CastError') {
+              throw new BadRequest('Карточка отсутствует');
+            }
+            next(error);
+          })
+          .catch(next);
       }
-      next(error);
     })
     .catch(next);
-  }
-})
-.catch(next);
 };
 
 const findCard = (req, res, next) => {
@@ -65,7 +64,7 @@ const addLike = (req, res, next) => {
   Card.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true },
+    { new: true }
   )
     .then((data) => {
       if (!data) {
@@ -87,7 +86,7 @@ const removeLike = (req, res, next) => {
   Card.findByIdAndUpdate(
     cardId,
     { $pull: { likes: req.user._id } },
-    { new: true },
+    { new: true }
   )
     .then((data) => {
       if (!data) {
@@ -111,4 +110,3 @@ module.exports = {
   addLike,
   removeLike,
 };
-

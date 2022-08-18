@@ -7,6 +7,7 @@ const {
   addLike,
   removeLike,
 } = require('../controllers/cards');
+
 cardsRouter.post('/cards', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
