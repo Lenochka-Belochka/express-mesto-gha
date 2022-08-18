@@ -1,6 +1,8 @@
 const Card = require('../models/card');
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequest = require('../errors/BadRequest');
+const AccessError = require('../errors/AccessError');
+
 
 const postCard = (req, res, next) => {
   const { name, link } = req.body;
@@ -19,11 +21,17 @@ const postCard = (req, res, next) => {
 };
 const removeCard = (req, res, next) => {
   const cardId = req.params.id;
-  Card.findByIdAndRemove(cardId)
-    .then((data) => {
-      if (!data) {
+  const id = req.user._id;
+  Card.findById(cardId)
+    .then((card) => {
+      if (!card) {
         throw new NotFoundError('Карточка с данным id не найдена');
       }
+      if (card.owner.toString() !== id) {
+        throw new AccessError('Недостаточно прав');
+      } else {
+        Card.findByIdAndRemove(cardId)
+          .then((data) => {
       res.status(200).send(data);
     })
     .catch((error) => {
@@ -33,6 +41,9 @@ const removeCard = (req, res, next) => {
       next(error);
     })
     .catch(next);
+  }
+})
+.catch(next);
 };
 
 const findCard = (req, res, next) => {
@@ -100,3 +111,4 @@ module.exports = {
   addLike,
   removeLike,
 };
+
