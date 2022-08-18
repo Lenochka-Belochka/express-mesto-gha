@@ -64,7 +64,7 @@ const addLike = (req, res, next) => {
   Card.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     .then((data) => {
       if (!data) {
@@ -86,7 +86,7 @@ const removeLike = (req, res, next) => {
   Card.findByIdAndUpdate(
     cardId,
     { $pull: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     .then((data) => {
       if (!data) {
