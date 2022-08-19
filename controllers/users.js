@@ -43,13 +43,13 @@ const createUser = (req, res, next) => {
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
-        next (new BadRequest('Проблема с валидацией на сервере'));
+        next(new BadRequest('Проблема с валидацией на сервере'));
       } else if (error.code === 11000) {
-        next (new DuplicateDataError('Указанный email уже существует'));
+        next(new DuplicateDataError('Указанный email уже существует'));
       } else {
-      next(error);
+        next(error);
       }
-    })
+    });
 };
 
 const getUserId = (req, res, next) => {
@@ -63,10 +63,10 @@ const getUserId = (req, res, next) => {
     })
     .catch((error) => {
       if (error.name === 'CastError') {
-        next (new BadRequest('Ошибочный id'));
+        next(new BadRequest('Ошибочный id'));
       }
       next(error);
-    })
+    });
 };
 
 const getUsers = (req, res, next) => {
@@ -83,8 +83,8 @@ const getUsers = (req, res, next) => {
 const updateUserInfo = (req, res, next) => {
   const { name, about } = req.body;
   const userId = req.user._id;
-  User.findByIdAndUpdate(
-    { id: userId },
+  User.findOneAndUpdate(
+    {_id: req.user._id},
     { name, about },
     { new: true, runValidators: true },
   )
@@ -97,18 +97,18 @@ const updateUserInfo = (req, res, next) => {
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
-        next (new BadRequest('Проблема с валидацией на сервере'));
+        next(new BadRequest('Проблема с валидацией на сервере'));
       } else {
-      next(error);
+        next(error);
       }
-    })
+    });
 };
 
 const updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
   const userId = req.user._id;
-  User.findByIdAndUpdate(
-    { id: userId },
+  User.findOneAndUpdate(
+    {_id: req.user._id},
     { avatar },
     { new: true, runValidators: true },
   )
@@ -121,11 +121,11 @@ const updateUserAvatar = (req, res, next) => {
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
-        next (new BadRequest('Проблема с валидацией на сервере'));
+        next(new BadRequest('Проблема с валидацией на сервере'));
       } else {
-      next(error);
+        next(error);
       }
-    })
+    });
 };
 
 module.exports = {

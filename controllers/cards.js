@@ -14,9 +14,9 @@ const postCard = (req, res, next) => {
       if (error.name === 'ValidationError') {
         next(new BadRequest('Проблема с валидацией на сервере'));
       } else {
-      next(error);
-    }
-  })
+        next(error);
+      }
+    });
 };
 const removeCard = (req, res, next) => {
   const cardId = req.params.id;
@@ -35,11 +35,11 @@ const removeCard = (req, res, next) => {
           })
           .catch((error) => {
             if (error.name === 'CastError') {
-              next (new BadRequest('Карточка отсутствует'));
+              next(new BadRequest('Карточка отсутствует'));
             } else {
-            next(error);
+              next(error);
             }
-          })
+          });
       }
     })
     .catch(next);
@@ -71,11 +71,11 @@ const addLike = (req, res, next) => {
     })
     .catch((error) => {
       if (error.name === 'CastError') {
-        next (new BadRequest('Карточка отсутствует'));
+        next(new BadRequest('Карточка отсутствует'));
       } else {
-      next(error);
-    }
-  })
+        next(error);
+      }
+    });
 };
 
 const removeLike = (req, res, next) => {
@@ -93,11 +93,11 @@ const removeLike = (req, res, next) => {
     })
     .catch((error) => {
       if (error.name === 'CastError') {
-        next (new BadRequest('Карточка отсутствует'));
+        next(new BadRequest('Карточка отсутствует'));
       } else {
-      next(error);
+        next(error);
       }
-    })
+    });
 };
 
 module.exports = {
