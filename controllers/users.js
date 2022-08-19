@@ -82,9 +82,8 @@ const getUsers = (req, res, next) => {
 
 const updateUserInfo = (req, res, next) => {
   const { name, about } = req.body;
-  const userId = req.user._id;
   User.findOneAndUpdate(
-    {_id: req.user._id},
+    { _id: req.user._id },
     { name, about },
     { new: true, runValidators: true },
   )
@@ -106,9 +105,8 @@ const updateUserInfo = (req, res, next) => {
 
 const updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
-  const userId = req.user._id;
   User.findOneAndUpdate(
-    {_id: req.user._id},
+    { _id: req.user._id },
     { avatar },
     { new: true, runValidators: true },
   )
