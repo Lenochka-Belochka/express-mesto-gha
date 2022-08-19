@@ -12,11 +12,11 @@ const postCard = (req, res, next) => {
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
-        throw new BadRequest('Проблема с валидацией на сервере');
-      }
+        next(new BadRequest('Проблема с валидацией на сервере'));
+      } else {
       next(error);
-    })
-    .catch(next);
+    }
+  })
 };
 const removeCard = (req, res, next) => {
   const cardId = req.params.id;
@@ -35,11 +35,11 @@ const removeCard = (req, res, next) => {
           })
           .catch((error) => {
             if (error.name === 'CastError') {
-              throw new BadRequest('Карточка отсутствует');
-            }
+              next (new BadRequest('Карточка отсутствует'));
+            } else {
             next(error);
+            }
           })
-          .catch(next);
       }
     })
     .catch(next);
@@ -51,9 +51,6 @@ const findCard = (req, res, next) => {
       res.status(200).send(cards);
     })
     .catch((error) => {
-      if (error.name === 'CastError') {
-        throw new NotFoundError('Карточки не созданы');
-      }
       next(error);
     })
     .catch(next);
@@ -74,11 +71,11 @@ const addLike = (req, res, next) => {
     })
     .catch((error) => {
       if (error.name === 'CastError') {
-        throw new BadRequest('Карточка отсутствует');
-      }
+        next (new BadRequest('Карточка отсутствует'));
+      } else {
       next(error);
-    })
-    .catch(next);
+    }
+  })
 };
 
 const removeLike = (req, res, next) => {
@@ -96,11 +93,11 @@ const removeLike = (req, res, next) => {
     })
     .catch((error) => {
       if (error.name === 'CastError') {
-        throw new BadRequest('Карточка отсутствует');
-      }
+        next (new BadRequest('Карточка отсутствует'));
+      } else {
       next(error);
+      }
     })
-    .catch(next);
 };
 
 module.exports = {

@@ -43,13 +43,13 @@ const createUser = (req, res, next) => {
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
-        throw new BadRequest('Проблема с валидацией на сервере');
+        next (new BadRequest('Проблема с валидацией на сервере'));
       } else if (error.code === 11000) {
-        throw new DuplicateDataError('Указанный email уже существует');
-      }
+        next (new DuplicateDataError('Указанный email уже существует'));
+      } else {
       next(error);
+      }
     })
-    .catch(next);
 };
 
 const getUserId = (req, res, next) => {
@@ -63,11 +63,10 @@ const getUserId = (req, res, next) => {
     })
     .catch((error) => {
       if (error.name === 'CastError') {
-        throw new BadRequest('Ошибочный id');
+        next (new BadRequest('Ошибочный id'));
       }
       next(error);
     })
-    .catch(next);
 };
 
 const getUsers = (req, res, next) => {
@@ -76,9 +75,6 @@ const getUsers = (req, res, next) => {
       res.status(200).send(data);
     })
     .catch((error) => {
-      if (error.name === 'CastError') {
-        throw new NotFoundError('Пользователи  не существуют');
-      }
       next(error);
     })
     .catch(next);
@@ -87,49 +83,49 @@ const getUsers = (req, res, next) => {
 const updateUserInfo = (req, res, next) => {
   const { name, about } = req.body;
   const userId = req.user._id;
-  User.findOneAndUpdate(
+  User.findByIdAndUpdate(
     { id: userId },
     { name, about },
     { new: true, runValidators: true },
   )
     .then((data) => {
       if (!data) {
-        next(new BadRequest('Переданы некорректные данные'));
+        next(new NotFoundError('Переданы некорректные данные'));
       } else {
         res.status(200).send(data);
       }
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
-        throw new BadRequest('Проблема с валидацией на сервере');
-      }
+        next (new BadRequest('Проблема с валидацией на сервере'));
+      } else {
       next(error);
+      }
     })
-    .catch(next);
 };
 
 const updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
   const userId = req.user._id;
-  User.findOneAndUpdate(
+  User.findByIdAndUpdate(
     { id: userId },
     { avatar },
     { new: true, runValidators: true },
   )
     .then((data) => {
       if (!data) {
-        next(new BadRequest('Переданы некорректные данные'));
+        next(new NotFoundError('Переданы некорректные данные'));
       } else {
         res.status(200).send(data);
       }
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
-        throw new BadRequest('Проблема с валидацией на сервере');
-      }
+        next (new BadRequest('Проблема с валидацией на сервере'));
+      } else {
       next(error);
+      }
     })
-    .catch(next);
 };
 
 module.exports = {
